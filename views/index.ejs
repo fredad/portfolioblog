@@ -1,0 +1,54 @@
+<% include ./includes/header.ejs %>
+
+<div class="container">
+			<h1>Blog!</h1>
+		<hr></hr>
+
+		<a type="button" class="btn btn-primary" href='/'>Home</a>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postmodal">
+		  Click To Post
+		</button>
+		<div class="modal fade" id="postmodal" tabindex="-1" role="dialog" aria-labelledby="postmodal" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Post your comments here!</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <div id='postblogs'  class="form-group">
+				<form action="/add" method="post" enctype="multipart/form-data" class="form-group">
+	  			<label for="title">Title:</label><br>
+	  			<input type="text" name= 'title' id='title' class="form-control"><br>
+	  			<label for="exerpt">Exerpt:</label><br>
+	  			<input type="text" name= 'exerpt' id='exerpt' class="form-control"><br>
+	  			<label for="body">Content:</label><br>
+	 			 <textarea type="text" name='body' id='body' class="form-control" rows="5" ></textarea><br>
+				<input type="file" name="newFile">
+				<button class="btn btn-primary" id='submit'>submit</button>
+				</form>
+				</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="panel-group" id="accordion">
+		<% for (var i = 0; i < result.length; i++) { %>
+		   <div class="col-sm-4 bloggie">
+      		  <h2><%= result[i].title%></h2>
+      		  <img class='tn' src="<%=result[i].img.split('.')[0]+'-tn.'+result[i].img.split('.')[1]%>" alt="<%=result[i].img.split('.')[0]+'-tn.'+result[i].img.split('.')[1]%>">
+      		  <h4><%= result[i].exerpt%></h4>
+              <p><%= result[i].time%></p>
+              <a href='post/<%=result[i].id%>'>Read More</a>
+              <form action="/delete" method="post">
+	        	<button class="btn" name='<%= result[i].id %>'>Delete</button>
+			  </form>
+           </div>
+		<% } %>
+		</div>
+</div>
+
+<% include ./includes/footer.ejs %>
